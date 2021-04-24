@@ -125,8 +125,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', event => {
     const target = event.target
     if (target.tagName !== 'BUTTON') return
-    const url = target.dataset.url
-    fetch("/?url=" + url, { method: 'POST' })
+    const postURL = target.dataset.url
+    const endpoint = new URL('/')
+    endpoint.searchParams.append('url', postURL)
+    fetch(endpoint, { method: 'POST' })
       .then(response => {
         if (response.status === 200) {
           const li = target.parentNode
