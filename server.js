@@ -146,9 +146,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ${posts.map(item => `
         <li>
           <span class=description>${escapeHTML(item.description)}</span>
-          <a href="${escapeHTML(item.href)}">${escapeHTML(item.href)}</a>
+          <a href="${item.href}">${escapeHTML(item.href)}</a>
           <date>${escapeHTML(item.time)}</date>
-          <button data-url="${escapeHTML(item.href)}">Mark Read</button>
+          <button data-url="${item.href}">Mark Read</button>
         </li>
         `).join('')}
       </ul>
