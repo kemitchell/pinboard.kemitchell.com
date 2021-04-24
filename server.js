@@ -287,7 +287,11 @@ function fetchPosts () {
     },
     // Fetch last updated date from Pinboard.
     api: done => {
-      https.get(`https://api.pinboard.in/v1/posts/update?format=json&auth_token=${PINBOARD_TOKEN}`)
+      const query = {
+        format: 'json',
+        auth_token: PINBOARD_TOKEN
+      }
+      https.get(`https://api.pinboard.in/v1/posts/update?${querystring.stringify(query)}`)
         .once('error', error => { done(error) })
         .once('response', response => {
           const chunks = []
@@ -314,7 +318,11 @@ function fetchPosts () {
     runSeries([
       done => {
         log.info('fetching posts')
-        https.get(`https://api.pinboard.in/v1/posts/all?format=json&auth_token=${PINBOARD_TOKEN}`)
+        const query = {
+          format: 'json',
+          auth_token: PINBOARD_TOKEN
+        }
+        https.get(`https://api.pinboard.in/v1/posts/all?${querystring.stringify(query)}`)
           .once('error', error => done(error))
           .once('response', response => {
             log.info('writing to disk')
