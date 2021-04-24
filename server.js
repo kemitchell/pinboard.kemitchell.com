@@ -261,6 +261,8 @@ function markRead (request, url, callback) {
 
 const runSeries = require('run-series')
 
+fetchPosts()
+
 server.listen(process.env.PORT || 8080, function () {
   const port = this.address().port
   log.info({ port }, 'listening')
@@ -343,5 +345,3 @@ function fetchPosts () {
     })
   })
 }
-
-fetchPosts()
