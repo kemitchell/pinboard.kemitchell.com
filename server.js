@@ -91,12 +91,16 @@ function get (request, response) {
     } catch (error) {
       return internalError(error)
     }
-    render(
-      posts
-        .filter(item => item.toread === 'yes')
-        .sort((a, b) => a.time.localeCompare(b.time))
-        .slice(0, limit)
-    )
+    const unread = posts
+      .filter(post => post.toread === 'yes')
+      .sort((a, b) => a.time.localeCompare(b.time))
+    let filtered = unread
+    if (request.url === '/videos') {
+      const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com']
+      filtered = unread.filter(post => videoDomains.some(domain => post.href.includes(domain)))
+    }
+    const slice = filtered.slice(0, limit)
+    render(slice)
   })
 
   function internalError (error) {
@@ -120,6 +124,10 @@ function get (request, response) {
     <header role=banner>
       <h1>${escapeHTML(TITLE)}</h1>
     </header>
+    <nav role=navigation>
+      <a href=/>all</a>
+      <a href=/videos>videos</a>
+    </nav>
     <main role=main>
       <ul class=posts>
         ${posts.map(item => `
