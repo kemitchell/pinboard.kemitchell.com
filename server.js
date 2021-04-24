@@ -173,6 +173,7 @@ function post (request, response) {
   })
 }
 
+const concat = require('simple-concat')
 const PINBOARD_API = 'https://api.pinboard.in/v1'
 
 function markRead (request, url, callback) {
@@ -196,29 +197,25 @@ function markRead (request, url, callback) {
       https.get(`${PINBOARD_API}/posts/get?${querystring.stringify(query)}`)
         .once('error', error => done(error))
         .once('response', response => {
-          const chunks = []
-          response
-            .on('data', chunk => { chunks.push(chunk) })
-            .once('error', error => done(error))
-            .once('end', () => {
-              const buffer = Buffer.concat(chunks)
-              let parsed
-              try {
-                parsed = JSON.parse(buffer)
-              } catch (error) {
-                return done(error)
-              }
-              request.log.info(parsed, 'parsed')
-              if (!Array.isArray(parsed.posts)) {
-                return done(new Error('no posts array'))
-              }
-              const length = parsed.posts.length
-              if (length !== 1) {
-                return done(new Error(`${length} posts`))
-              }
-              oldPost = parsed.posts[0]
-              done()
-            })
+          concat(response, (error, buffer) => {
+            if (error) return done(error)
+            let parsed
+            try {
+              parsed = JSON.parse(buffer)
+            } catch (error) {
+              return done(error)
+            }
+            request.log.info(parsed, 'parsed')
+            if (!Array.isArray(parsed.posts)) {
+              return done(new Error('no posts array'))
+            }
+            const length = parsed.posts.length
+            if (length !== 1) {
+              return done(new Error(`${length} posts`))
+            }
+            oldPost = parsed.posts[0]
+            done()
+          })
         })
     },
     // Overwrite the post.
@@ -239,21 +236,17 @@ function markRead (request, url, callback) {
           if (statusCode !== 200) {
             return done(new Error('pinboard responded ' + statusCode))
           }
-          const chunks = []
-          response
-            .on('data', chunk => { chunks.push(chunk) })
-            .once('error', error => done(error))
-            .once('end', () => {
-              const buffer = Buffer.concat(chunks)
-              let parsed
-              try {
-                parsed = JSON.parse(buffer)
-              } catch (error) {
-                return done(error)
-              }
-              request.log.info(parsed, 'pinboard response')
-              done()
-            })
+          concat(response, (error, buffer) => {
+            if (error) return done(error)
+            let parsed
+            try {
+              parsed = JSON.parse(buffer)
+            } catch (error) {
+              return done(error)
+            }
+            request.log.info(parsed, 'pinboard response')
+            done()
+          })
         })
     }
   ], callback)
@@ -296,22 +289,18 @@ function fetchPosts () {
       https.get(`${PINBOARD_API}/posts/update?${querystring.stringify(query)}`)
         .once('error', error => { done(error) })
         .once('response', response => {
-          const chunks = []
-          response
-            .on('data', chunk => { chunks.push(chunk) })
-            .once('error', error => done(error))
-            .once('end', () => {
-              const buffer = Buffer.concat(chunks)
-              let parsed
-              try {
-                parsed = JSON.parse(buffer)
-              } catch (error) {
-                return done(error)
-              }
-              const date = parsed.update_time.trim()
-              log.info({ date }, 'API')
-              done(null, date)
-            })
+          concat(response, (error, buffer) => {
+            if (error) return done(error)
+            let parsed
+            try {
+              parsed = JSON.parse(buffer)
+            } catch (error) {
+              return done(error)
+            }
+            const date = parsed.update_time.trim()
+            log.info({ date }, 'API')
+            done(null, date)
+          })
         })
     }
   }, (error, { disk, api }) => {
