@@ -188,7 +188,12 @@ function markRead (request, url, callback) {
   runSeries([
     // Fetch existing post data.
     done => {
-      https.get(`https://api.pinboard.in/v1/posts/get?url=${url}&format=json&auth_token=${PINBOARD_TOKEN}`)
+      const query = {
+        url,
+        format: 'json',
+        auth_token: PINBOARD_TOKEN
+      }
+      https.get(`https://api.pinboard.in/v1/posts/get?${querystring.stringify(query)}`)
         .once('error', error => done(error))
         .once('response', response => {
           const chunks = []

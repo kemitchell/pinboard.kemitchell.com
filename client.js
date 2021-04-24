@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (target.tagName !== 'BUTTON') return
     // Find the URL of the post.
     const postURL = target.dataset.url
-    const endpoint = new URL('/')
+    const endpoint = new URL(window.location.href)
     endpoint.searchParams.append('url', postURL)
     // Send POST.
     fetch(endpoint, { method: 'POST' })
