@@ -55,7 +55,13 @@ const addLogs = require('pino-http')({ logger: log })
 const server = require('http').createServer((request, response) => {
   addLogs(request, response)
   const method = request.method
-  if (method === 'GET') return get(request, response)
+  if (method === 'GET') {
+    if (request.url === '/client.js') {
+      response.setHeader('Content-Type', 'application/json')
+      return fs.createReadStream('client.js').pipe(response)
+    }
+    return get(request, response)
+  }
   if (method === 'POST') return post(request, response)
   response.statusCode = 405
   response.end()
@@ -120,26 +126,7 @@ function get (request, response) {
     </style>
   </head>
   <body>
-    <script>
-document.addEventListener('DOMContentLoaded', () => {
-  document.addEventListener('click', event => {
-    const target = event.target
-    if (target.tagName !== 'BUTTON') return
-    const postURL = target.dataset.url
-    const endpoint = new URL('/')
-    endpoint.searchParams.append('url', postURL)
-    fetch(endpoint, { method: 'POST' })
-      .then(response => {
-        if (response.status === 200) {
-          const li = target.parentNode
-          li.parentNode.removeChild(li)
-        } else {
-          window.alert('error marking read')
-        }
-      })
-  })
-})
-    </script>
+    <script src=/client.js></script>
     <header role=banner>
       <h1>${escapeHTML(TITLE)}</h1>
     </header>
