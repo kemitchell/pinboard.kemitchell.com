@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', event => {
     const target = event.target
     if (target.tagName !== 'BUTTON') return
+    // Disable the button.
+    target.disabled = true
     // Find the URL of the post.
     const postURL = target.dataset.url
     const endpoint = new URL(window.location.href)
