@@ -76,6 +76,7 @@ const fs = require('fs')
 const runParallel = require('run-parallel')
 
 function get (request, response) {
+  const { limit = 100 } = parseURL(request.url, true).query
   const auth = basicAuth(request)
   if (!auth || auth.name !== USERNAME || auth.pass !== PASSWORD) {
     response.statusCode = 401
@@ -94,7 +95,7 @@ function get (request, response) {
       posts
         .filter(item => item.toread === 'yes')
         .sort((a, b) => a.time.localeCompare(b.time))
-        .slice(0, 100)
+        .slice(0, limit)
     )
   })
 
