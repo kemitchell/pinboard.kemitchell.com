@@ -175,6 +175,8 @@ function post (request, response) {
   })
 }
 
+const PINBOARD_API = 'https://api.pinboard.in/v1'
+
 function markRead (request, url, callback) {
   const postProperties = {
     href: 'url',
@@ -193,7 +195,7 @@ function markRead (request, url, callback) {
         format: 'json',
         auth_token: PINBOARD_TOKEN
       }
-      https.get(`https://api.pinboard.in/v1/posts/get?${querystring.stringify(query)}`)
+      https.get(`${PINBOARD_API}/posts/get?${querystring.stringify(query)}`)
         .once('error', error => done(error))
         .once('response', response => {
           const chunks = []
@@ -232,7 +234,7 @@ function markRead (request, url, callback) {
         query[to] = oldPost[from]
       }
       request.log.info(query, 'query')
-      https.get(`https://api.pinboard.in/v1/posts/add?${querystring.stringify(query)}`)
+      https.get(`${PINBOARD_API}/posts/add?${querystring.stringify(query)}`)
         .once('error', error => done(error))
         .once('response', response => {
           const { statusCode } = response
@@ -293,7 +295,7 @@ function fetchPosts () {
         format: 'json',
         auth_token: PINBOARD_TOKEN
       }
-      https.get(`https://api.pinboard.in/v1/posts/update?${querystring.stringify(query)}`)
+      https.get(`${PINBOARD_API}/posts/update?${querystring.stringify(query)}`)
         .once('error', error => { done(error) })
         .once('response', response => {
           const chunks = []
@@ -324,7 +326,7 @@ function fetchPosts () {
           format: 'json',
           auth_token: PINBOARD_TOKEN
         }
-        https.get(`https://api.pinboard.in/v1/posts/all?${querystring.stringify(query)}`)
+        https.get(`${PINBOARD_API}/posts/all?${querystring.stringify(query)}`)
           .once('error', error => done(error))
           .once('response', response => {
             log.info('writing to disk')
