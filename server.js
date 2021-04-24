@@ -125,7 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch("/?url=" + url, { method: 'POST' })
       .then(response => {
         if (response.status === 200) {
-          target.parentNode.removeChild(target)
+          const li = target.parentNode
+          li.parentNode.removeChild(li)
         } else {
           window.alert('error marking read')
         }
