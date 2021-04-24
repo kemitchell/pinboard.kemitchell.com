@@ -108,6 +108,10 @@ function get (request, response) {
   margin: 1rem 0;
 }
 
+.posts .description {
+  font-size: 125%;
+}
+
 .posts .description,
 .posts a[href],
 .posts date {
