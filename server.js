@@ -59,6 +59,9 @@ const server = require('http').createServer((request, response) => {
     if (request.url === '/client.js') {
       response.setHeader('Content-Type', 'application/json')
       return fs.createReadStream('client.js').pipe(response)
+    } else if (request.url === '/styles.css') {
+      response.setHeader('Content-Type', 'text/css')
+      return fs.createReadStream('styles.css').pipe(response)
     }
     return get(request, response)
   }
@@ -109,21 +112,7 @@ function get (request, response) {
     <meta charset=UTF-8>
     <meta name=viewport content=width=device-width,initial-scale=1>
     <title>${escapeHTML(TITLE)}</title>
-    <style>
-.posts li {
-  margin: 1rem 0;
-}
-
-.posts .description {
-  font-size: 125%;
-}
-
-.posts .description,
-.posts a[href],
-.posts date {
-  display: block;
-}
-    </style>
+    <link rel=stylesheet href=styles.css>
   </head>
   <body>
     <script src=/client.js></script>
