@@ -13,8 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(endpoint, { method: 'POST' })
       .then(response => {
         if (response.status === 200) {
-          const li = target.parentNode
-          li.parentNode.className = 'read'
+          const li = target.parentNode.className = 'read'
         } else {
           window.alert('error marking read')
         }
