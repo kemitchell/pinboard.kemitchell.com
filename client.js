@@ -13,9 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(endpoint, { method: 'POST' })
       .then(response => {
         if (response.status === 200) {
-          // Remove list item for read post.
           const li = target.parentNode
-          li.parentNode.removeChild(li)
+          li.parentNode.className = 'read'
         } else {
           window.alert('error marking read')
         }

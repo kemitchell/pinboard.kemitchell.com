@@ -27,3 +27,7 @@ a[href]:hover {
 .posts date {
   display: block;
 }
+
+.read {
+  opacity: 0.5;
+}
