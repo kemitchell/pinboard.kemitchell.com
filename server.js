@@ -96,8 +96,7 @@ function get (request, response) {
       .sort((a, b) => a.time.localeCompare(b.time))
     let filtered = unread
     if (request.url === '/videos') {
-      const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com']
-      filtered = unread.filter(post => videoDomains.some(domain => post.href.includes(domain)))
+      filtered = unread.filter(isVideo)
     }
     const slice = filtered.slice(0, limit)
     render(slice)
@@ -144,6 +143,12 @@ function get (request, response) {
 </html>
     `.trim())
   }
+}
+
+const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com']
+
+function isVideo (post) {
+  return videoDomains.some(domain => post.href.includes(domain)) || post.tags.includes(' ideo')
 }
 
 const https = require('https')
