@@ -140,7 +140,7 @@ function get (request, response) {
           <span class=description>${escapeHTML(item.description)}</span>
           <a href="${item.href}">${escapeHTML(item.href)}</a>
           <date>${escapeHTML(item.time)}</date>
-          <button data-url="${item.href}">Mark Read</button>
+          <button class=markRead data-url="${item.href}">Mark Read</button>
         </li>
         `).join('')}
       </ul>

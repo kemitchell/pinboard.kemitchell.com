@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', event => {
     const target = event.target
     if (target.tagName !== 'BUTTON') return
+    if (target.className === 'markRead') return
     // Disable the button.
     target.disabled = true
     // Find the URL of the post.
