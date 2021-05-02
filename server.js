@@ -99,6 +99,8 @@ function get (request, response) {
       filtered = unread.filter(isVideo)
     } else if (request.url === '/wiki') {
       filtered = unread.filter(isWiki)
+    } else if (request.url === '/github') {
+      filtered = unread.filter(isGitHub)
     }
     const slice = filtered.slice(0, limit)
     render(slice)
@@ -129,6 +131,7 @@ function get (request, response) {
       <a href=/>all</a>
       <a href=/videos>videos</a>
       <a href=/wiki>wiki</a>
+      <a href=/github>github</a>
     </nav>
     <main role=main>
       <form method=post action=/refresh>
@@ -159,6 +162,10 @@ function isVideo (post) {
 
 function isWiki (post) {
   return post.href.includes('wikipedia.org')
+}
+
+function isGitHub (post) {
+  return post.href.includes('github.com')
 }
 
 const https = require('https')
