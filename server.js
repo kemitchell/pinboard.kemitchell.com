@@ -131,6 +131,9 @@ function get (request, response) {
       <a href=/wiki>wiki</a>
     </nav>
     <main role=main>
+      <form method=post action=/refresh>
+        <button tyoe=submit>Refresh</button>
+      </form>
       <ul class=posts>
         ${posts.map(item => `
         <li>
@@ -168,6 +171,13 @@ function post (request, response) {
     response.statusCode = 401
     response.setHeader('WWW-Authenticate', 'Basic realm=todo')
     return response.end()
+  }
+  if (request.url === '/refresh') {
+    return fetchPosts(() => {
+      response.statusCode = 303
+      response.setHeader('Location', '/')
+      response.end()
+    })
   }
   const { url } = parseURL(request.url, true).query
   if (!url) {
@@ -278,7 +288,7 @@ const schedule = require('node-schedule')
 const EVERY_TEN_MINUTES = '*/10 * * * *'
 schedule.scheduleJob(EVERY_TEN_MINUTES, fetchPosts)
 
-function fetchPosts () {
+function fetchPosts (callback) {
   runParallel({
     // Read last updated date from disk.
     disk: done => {
@@ -343,6 +353,7 @@ function fetchPosts () {
       done => fs.writeFile(UPDATED_FILE, api, done)
     ], error => {
       if (error) return log.error(error)
+      if (callback) callback()
     })
   })
 }
