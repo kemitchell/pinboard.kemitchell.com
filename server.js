@@ -97,6 +97,8 @@ function get (request, response) {
     let filtered = unread
     if (request.url === '/videos') {
       filtered = unread.filter(isVideo)
+    } else if (request.url === '/wiki') {
+      filtered = unread.filter(isWiki)
     }
     const slice = filtered.slice(0, limit)
     render(slice)
@@ -126,6 +128,7 @@ function get (request, response) {
     <nav role=navigation>
       <a href=/>all</a>
       <a href=/videos>videos</a>
+      <a href=/wiki>wiki</a>
     </nav>
     <main role=main>
       <ul class=posts>
@@ -149,6 +152,10 @@ const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com']
 
 function isVideo (post) {
   return videoDomains.some(domain => post.href.includes(domain)) || post.tags.includes(' ideo')
+}
+
+function isWiki (post) {
+  return post.href.includes('wikipedia.org')
 }
 
 const https = require('https')
