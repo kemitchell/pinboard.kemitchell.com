@@ -132,7 +132,7 @@ function get (request, response) {
     </nav>
     <main role=main>
       <form method=post action=/refresh>
-        <button tyoe=submit>Refresh</button>
+        <button type=submit>Refresh</button>
       </form>
       <ul class=posts>
         ${posts.map(item => `
