@@ -101,6 +101,8 @@ function get (request, response) {
       filtered = unread.filter(isWiki)
     } else if (request.url === '/github') {
       filtered = unread.filter(isGitHub)
+    } else if (request.url === '/medium') {
+      filtered = unread.filter(post => post.href.includes('medium.com'))
     }
     const slice = filtered.slice(0, limit)
     render(slice)
@@ -132,6 +134,7 @@ function get (request, response) {
       <a href=/videos>videos</a>
       <a href=/wiki>wiki</a>
       <a href=/github>github</a>
+      <a href=/medium>medium</a>
     </nav>
     <main role=main>
       <form method=post action=/refresh>
