@@ -51,6 +51,12 @@ if (!PASSWORD) {
   process.exit(1)
 }
 
+const currentYear = new Date().getFullYear()
+const years = []
+for (let year = 2014; year <= currentYear; year++) {
+  years.push(year)
+}
+
 const addLogs = require('pino-http')({ logger: log })
 const server = require('http').createServer((request, response) => {
   addLogs(request, response)
@@ -103,6 +109,9 @@ function get (request, response) {
       filtered = unread.filter(isGitHub)
     } else if (request.url === '/medium') {
       filtered = unread.filter(post => post.href.includes('medium.com'))
+    } else if (/^\/\d\d\d\d$/.test(request.url)) {
+      const year = request.url.slice(1)
+      filtered = unread.filter(post => post.time.startsWith(year))
     }
     const slice = filtered.slice(0, limit)
     render(slice)
@@ -135,6 +144,9 @@ function get (request, response) {
       <a href=/wiki>wiki</a>
       <a href=/github>github</a>
       <a href=/medium>medium</a>
+    </nav>
+    <nav role=navigation>
+      ${years.map(year => `<a href=/${year}>${year}</a>`).join(' ')}
     </nav>
     <main role=main>
       <form method=post action=/refresh>
