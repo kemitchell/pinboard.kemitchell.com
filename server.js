@@ -320,7 +320,7 @@ function fetchPosts (callback) {
           return done(error)
         }
         date = date.trim()
-        log.info({ date }, 'disk')
+        log.info({ date }, 'updated from disk')
         return done(null, date)
       })
     },
@@ -342,7 +342,7 @@ function fetchPosts (callback) {
               return done(error)
             }
             const date = parsed.update_time.trim()
-            log.info({ date }, 'API')
+            log.info({ date }, 'updated from API')
             done(null, date)
           })
         })
