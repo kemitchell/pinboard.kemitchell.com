@@ -90,7 +90,8 @@ const filters = {
   ),
   '/wiki': post => post.href.includes('wikipedia.org'),
   '/gitHub': post => post.href.includes('github.com'),
-  '/medium': post => post.href.includes('medium.com')
+  '/medium': post => post.href.includes('medium.com'),
+  '/ken': post => post.href.includes('adamsdrafting.com')
 }
 
 function get (request, response) {
@@ -147,10 +148,7 @@ function get (request, response) {
     </header>
     <nav role=navigation>
       <a href=/>all</a>
-      <a href=/videos>videos</a>
-      <a href=/wiki>wiki</a>
-      <a href=/github>github</a>
-      <a href=/medium>medium</a>
+      ${Object.keys(filters).map(path => `<a href="${path}">${path}</a>`).join('')}
     </nav>
     <nav role=navigation>
       ${years.map(year => `<a href=/${year}>${year}</a>`).join(' ')}
