@@ -148,7 +148,7 @@ function get (request, response) {
     </header>
     <nav role=navigation>
       <a href=/>all</a>
-      ${Object.keys(filters).map(path => `<a href="${path}">${path}</a>`).join('')}
+      ${Object.keys(filters).map(path => `<a href="${path}">${path}</a>`).join(' ')}
     </nav>
     <nav role=navigation>
       ${years.map(year => `<a href=/${year}>${year}</a>`).join(' ')}
