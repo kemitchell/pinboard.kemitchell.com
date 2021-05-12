@@ -81,6 +81,18 @@ const escapeHTML = require('escape-html')
 const fs = require('fs')
 const runParallel = require('run-parallel')
 
+const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com']
+
+const filters = {
+  '/videos': post => (
+    videoDomains.some(domain => post.href.includes(domain)) ||
+    post.tags.includes('video')
+  ),
+  '/wiki': post => post.href.includes('wikipedia.org'),
+  '/gitHub': post => post.href.includes('github.com'),
+  '/medium': post => post.href.includes('medium.com')
+}
+
 function get (request, response) {
   const { limit = 100 } = parseURL(request.url, true).query
   const auth = basicAuth(request)
@@ -101,14 +113,9 @@ function get (request, response) {
       .filter(post => post.toread === 'yes')
       .sort((a, b) => a.time.localeCompare(b.time))
     let filtered = unread
-    if (request.url === '/videos') {
-      filtered = unread.filter(isVideo)
-    } else if (request.url === '/wiki') {
-      filtered = unread.filter(isWiki)
-    } else if (request.url === '/github') {
-      filtered = unread.filter(isGitHub)
-    } else if (request.url === '/medium') {
-      filtered = unread.filter(post => post.href.includes('medium.com'))
+    const filter = filters[request.url]
+    if (filter) {
+      filtered = unread.filter(filter)
     } else if (/^\/\d\d\d\d$/.test(request.url)) {
       const year = request.url.slice(1)
       filtered = unread.filter(post => post.time.startsWith(year))
@@ -167,20 +174,6 @@ function get (request, response) {
 </html>
     `.trim())
   }
-}
-
-const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com']
-
-function isVideo (post) {
-  return videoDomains.some(domain => post.href.includes(domain)) || post.tags.includes(' ideo')
-}
-
-function isWiki (post) {
-  return post.href.includes('wikipedia.org')
-}
-
-function isGitHub (post) {
-  return post.href.includes('github.com')
 }
 
 const https = require('https')
