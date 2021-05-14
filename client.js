@@ -30,6 +30,7 @@ function deletePost (event) {
       })
   } else {
     target.innerText = 'Confirm'
+    setTimeout(() => { target.innerText = 'Delete' }, 10000)
   }
 }
 
