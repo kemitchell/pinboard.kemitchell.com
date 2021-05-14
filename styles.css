@@ -3,8 +3,8 @@ html {
 }
 
 body {
-  padding-bottom: 5rem;
   max-width: 50rem;
+  padding-bottom: 5rem;
 }
 
 a[href] {
