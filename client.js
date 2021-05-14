@@ -10,22 +10,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function deletePost (event) {
   const target = event.target
-  // Disable the button.
-  target.disabled = true
-  // Find the URL of the post.
-  const postURL = target.dataset.url
-  const endpoint = new URL(window.location.href)
-  endpoint.searchParams.append('action', 'delete')
-  endpoint.searchParams.append('url', postURL)
-  // Send POST.
-  fetch(endpoint, { method: 'POST' })
-    .then(response => {
-      if (response.status === 200) {
-        target.parentNode.className = 'deleted'
-      } else {
-        window.alert('error deleting')
-      }
-    })
+  const innerText = target.innerText
+  if (innerText === 'Confirm') {
+    // Disable the button.
+    target.disabled = true
+    // Find the URL of the post.
+    const postURL = target.dataset.url
+    const endpoint = new URL(window.location.href)
+    endpoint.searchParams.append('action', 'delete')
+    endpoint.searchParams.append('url', postURL)
+    // Send POST.
+    fetch(endpoint, { method: 'POST' })
+      .then(response => {
+        if (response.status === 200) {
+          target.parentNode.className = 'deleted'
+        } else {
+          window.alert('error deleting')
+        }
+      })
+  } else {
+    target.innerText = 'Confirm'
+  }
 }
 
 function markRead (event) {
