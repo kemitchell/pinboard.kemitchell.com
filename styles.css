@@ -22,6 +22,7 @@ a[href]:hover {
 .posts li {
   border: 1px solid black;
   margin: 1rem 0;
+  padding: 1rem;
 }
 
 .posts .description {
