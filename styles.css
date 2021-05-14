@@ -31,3 +31,12 @@ a[href]:hover {
 .read {
   opacity: 0.5;
 }
+
+.deleted {
+  background-color: red;
+  opacity: 0.5;
+}
+
+.delete {
+  float: right;
+}

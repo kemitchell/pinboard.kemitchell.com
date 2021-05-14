@@ -3,21 +3,47 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', event => {
     const target = event.target
     if (target.tagName !== 'BUTTON') return
-    if (target.className !== 'markRead') return
-    // Disable the button.
-    target.disabled = true
-    // Find the URL of the post.
-    const postURL = target.dataset.url
-    const endpoint = new URL(window.location.href)
-    endpoint.searchParams.append('url', postURL)
-    // Send POST.
-    fetch(endpoint, { method: 'POST' })
-      .then(response => {
-        if (response.status === 200) {
-          target.parentNode.className = 'read'
-        } else {
-          window.alert('error marking read')
-        }
-      })
+    if (target.className === 'markRead') markRead(event)
+    if (target.className === 'delete') deletePost(event)
   })
 })
+
+function deletePost (event) {
+  const target = event.target
+  // Disable the button.
+  target.disabled = true
+  // Find the URL of the post.
+  const postURL = target.dataset.url
+  const endpoint = new URL(window.location.href)
+  endpoint.searchParams.append('action', 'delete')
+  endpoint.searchParams.append('url', postURL)
+  // Send POST.
+  fetch(endpoint, { method: 'POST' })
+    .then(response => {
+      if (response.status === 200) {
+        target.parentNode.className = 'deleted'
+      } else {
+        window.alert('error deleting')
+      }
+    })
+}
+
+function markRead (event) {
+  const target = event.target
+  // Disable the button.
+  target.disabled = true
+  // Find the URL of the post.
+  const postURL = target.dataset.url
+  const endpoint = new URL(window.location.href)
+  endpoint.searchParams.append('action', 'read')
+  endpoint.searchParams.append('url', postURL)
+  // Send POST.
+  fetch(endpoint, { method: 'POST' })
+    .then(response => {
+      if (response.status === 200) {
+        target.parentNode.className = 'read'
+      } else {
+        window.alert('error marking read')
+      }
+    })
+}

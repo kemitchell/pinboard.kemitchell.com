@@ -164,6 +164,7 @@ function get (request, response) {
           <a href="${item.href}">${escapeHTML(item.href)}</a>
           <date>${escapeHTML(item.time)}</date>
           <button class=markRead data-url="${item.href}">Mark Read</button>
+          <button class=delete data-url="${item.href}">Delete</button>
         </li>
         `).join('')}
       </ul>
@@ -192,20 +193,35 @@ function post (request, response) {
       response.end()
     })
   }
-  const { url } = parseURL(request.url, true).query
+  const { url, action } = parseURL(request.url, true).query
   if (!url) {
     response.statusCode = 400
     return response.end()
   }
-  request.log.info({ url }, 'marking read')
-  markRead(request, url, error => {
-    if (error) {
-      request.log.error(error)
-      response.statusCode = 500
-      return response.end()
-    }
+  if (action === 'read') {
+    request.log.info({ url }, 'marking read')
+    markRead(request, url, error => {
+      if (error) {
+        request.log.error(error)
+        response.statusCode = 500
+        return response.end()
+      }
+      response.end()
+    })
+  } else if (action === 'delete') {
+    request.log.info({ url }, 'deleting')
+    deletePost(request, url, error => {
+      if (error) {
+        request.log.error(error)
+        response.statusCode = 500
+        return response.end()
+      }
+      response.end()
+    })
+  } else {
+    response.statusCode = 400
     response.end()
-  })
+  }
 }
 
 const concat = require('simple-concat')
@@ -285,6 +301,34 @@ function markRead (request, url, callback) {
         })
     }
   ], callback)
+}
+
+function deletePost (request, url, callback) {
+  const query = {
+    format: 'json',
+    auth_token: PINBOARD_TOKEN,
+    url
+  }
+  request.log.info(query, 'delete')
+  https.get(`${PINBOARD_API}/posts/delete?${querystring.stringify(query)}`)
+    .once('error', error => callback(error))
+    .once('response', response => {
+      const { statusCode } = response
+      if (statusCode !== 200) {
+        return callback(new Error('pinboard responded ' + statusCode))
+      }
+      concat(response, (error, buffer) => {
+        if (error) return callback(error)
+        let parsed
+        try {
+          parsed = JSON.parse(buffer)
+        } catch (error) {
+          return callback(error)
+        }
+        request.log.info(parsed, 'pinboard response')
+        callback()
+      })
+    })
 }
 
 const runSeries = require('run-series')
