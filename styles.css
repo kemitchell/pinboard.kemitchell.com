@@ -15,7 +15,12 @@ a[href]:hover {
   text-decoration: underline;
 }
 
+.posts {
+  list-style-type: none;
+}
+
 .posts li {
+  border: 1px solid black;
   margin: 1rem 0;
 }
 
