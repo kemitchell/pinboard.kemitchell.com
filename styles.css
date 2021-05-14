@@ -4,6 +4,7 @@ html {
 
 body {
   padding-bottom: 5rem;
+  max-width: 50rem;
 }
 
 a[href] {
