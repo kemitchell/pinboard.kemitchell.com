@@ -89,7 +89,7 @@ const filters = {
     post.tags.includes('video')
   ),
   '/wiki': post => post.href.includes('wikipedia.org'),
-  '/gitHub': post => post.href.includes('github.com'),
+  '/github': post => post.href.includes('github.com'),
   '/medium': post => post.href.includes('medium.com'),
   '/printme': post => post.tags.includes('printme'),
   '/vice': post => post.href.includes('vice.com'),
