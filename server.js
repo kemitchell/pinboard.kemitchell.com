@@ -92,6 +92,7 @@ const filters = {
   '/github': post => post.href.includes('github.com'),
   '/medium': post => post.href.includes('medium.com'),
   '/twitter': post => post.href.includes('twitter.com'),
+  '/sfbar': post => post.href.includes('sfbar.org'),
   '/wsgr': post => post.href.includes('wsgr.com'),
   '/facebook': post => post.href.includes('facebook.com'),
   '/printme': post => post.tags.includes('printme'),
