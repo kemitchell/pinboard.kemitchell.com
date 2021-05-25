@@ -91,6 +91,7 @@ const filters = {
   '/wiki': post => post.href.includes('wikipedia.org'),
   '/github': post => post.href.includes('github.com'),
   '/twitter': post => post.href.includes('twitter.com'),
+  '/readontablet': post => post.tags.includes('readontablet'),
   '/printme': post => post.tags.includes('printme'),
   '/ken': post => post.href.includes('adamsdrafting.com')
 }
