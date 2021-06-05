@@ -1,2 +1,2 @@
 #!/bin/sh
-ssh pinboard.kemitchell.com "source \$HOME/.profile && ./update-pinboard"
+ssh pinboard.kemitchell.com "./update/pinboard"
