@@ -159,6 +159,7 @@ function get (request, response) {
       <form method=post action=/refresh>
         <button type=submit>Refresh</button>
       </form>
+      <p>Results: ${posts.length}</p>
       <ul class=posts>
         ${posts.map(item => `
         <li>
