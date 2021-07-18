@@ -1,2 +1,2 @@
 #!/bin/sh
-ssh pinboard.kemitchell.com "./update/pinboard"
+ssh reverse.kemitchell.com "./update/pinboard"
