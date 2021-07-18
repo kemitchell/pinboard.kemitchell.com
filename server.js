@@ -123,8 +123,9 @@ function get (request, response) {
       const year = request.url.slice(1)
       filtered = unread.filter(post => post.time.startsWith(year))
     }
+    const count = filtered.length
     const slice = filtered.slice(0, limit)
-    render(slice)
+    render(slice, count)
   })
 
   function internalError (error) {
@@ -133,7 +134,7 @@ function get (request, response) {
     response.end()
   }
 
-  function render (posts) {
+  function render (posts, count) {
     response.end(`
 <!doctype html>
 <html lang=en-US>
@@ -159,7 +160,7 @@ function get (request, response) {
       <form method=post action=/refresh>
         <button type=submit>Refresh</button>
       </form>
-      <p>Results: ${posts.length}</p>
+      <p>Results: ${count}</p>
       <ul class=posts>
         ${posts.map(item => `
         <li>
