@@ -81,7 +81,7 @@ const escapeHTML = require('escape-html')
 const fs = require('fs')
 const runParallel = require('run-parallel')
 
-const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com']
+const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com', 'nebula.app']
 
 const filters = {
   '/videos': post => (
