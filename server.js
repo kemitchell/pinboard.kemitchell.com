@@ -153,7 +153,7 @@ function get (request, response) {
       <a href=/>all</a>
       ${
         Object.keys(filters)
-          .filter(path => allPosts.some(filters[path]))
+          .filter(path => allPosts.some(post => filters[path](post) && post.toread === 'yes'))
           .map(path => `<a href="${path}">${path}</a>`)
           .join(' ')
       }
