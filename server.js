@@ -159,7 +159,11 @@ function get (request, response) {
       }
     </nav>
     <nav role=navigation>
-      ${years.map(year => `<a href=/${year}>${year}</a>`).join(' ')}
+      ${
+        years
+          .filter(year => posts.some(post => post.time.startsWith(year)))
+          .map(year => `<a href=/${year}>${year}</a>`).join(' ')
+      }
     </nav>
     <main role=main>
       <form method=post action=/refresh>
