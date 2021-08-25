@@ -125,7 +125,7 @@ function get (request, response) {
     }
     const count = filtered.length
     const slice = filtered.slice(0, limit)
-    render(slice, count)
+    render(slice, count, posts)
   })
 
   function internalError (error) {
@@ -134,7 +134,7 @@ function get (request, response) {
     response.end()
   }
 
-  function render (posts, count) {
+  function render (posts, count, allPosts) {
     response.end(`
 <!doctype html>
 <html lang=en-US>
@@ -151,7 +151,12 @@ function get (request, response) {
     </header>
     <nav role=navigation>
       <a href=/>all</a>
-      ${Object.keys(filters).map(path => `<a href="${path}">${path}</a>`).join(' ')}
+      ${
+        Object.keys(filters)
+          .filter(path => allPosts.some(filters[path]))
+          .map(path => `<a href="${path}">${path}</a>`)
+          .join(' ')
+      }
     </nav>
     <nav role=navigation>
       ${years.map(year => `<a href=/${year}>${year}</a>`).join(' ')}
