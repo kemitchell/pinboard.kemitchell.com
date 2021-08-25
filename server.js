@@ -125,7 +125,7 @@ function get (request, response) {
     }
     const count = filtered.length
     const slice = filtered.slice(0, limit)
-    render(slice, count, posts)
+    render(slice, count, filtered, posts)
   })
 
   function internalError (error) {
@@ -134,7 +134,7 @@ function get (request, response) {
     response.end()
   }
 
-  function render (posts, count, allPosts) {
+  function render (posts, count, allMatching, allPosts) {
     response.end(`
 <!doctype html>
 <html lang=en-US>
@@ -161,7 +161,7 @@ function get (request, response) {
     <nav role=navigation>
       ${
         years
-          .filter(year => posts.some(post => post.time.startsWith(year)))
+          .filter(year => allMatching.some(post => post.time.startsWith(year)))
           .map(year => `<a href=/${year}>${year}</a>`).join(' ')
       }
     </nav>
