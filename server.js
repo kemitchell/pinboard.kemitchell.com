@@ -88,7 +88,10 @@ const filters = {
     videoDomains.some(domain => post.href.includes(domain)) ||
     post.tags.includes('video')
   ),
-  '/podcasts': post => post.tags.includes('podcast'),
+  '/podcasts': post => (
+    post.href.includes('podcast') ||
+    post.tags.includes('podcast')
+  ),
   '/wiki': post => post.href.includes('wikipedia.org'),
   '/github': post => post.href.includes('github.com'),
   '/twitter': post => post.href.includes('twitter.com'),
