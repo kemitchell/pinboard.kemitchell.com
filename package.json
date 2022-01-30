@@ -10,7 +10,7 @@
     "run-parallel": "^1.2.0",
     "run-series": "^1.1.9",
     "simple-concat": "^1.0.1",
-    "url-parse": "^1.5.3"
+    "url-parse": "^1.5.4"
   },
   "devDependencies": {
     "licensee": "^8.2.0",
