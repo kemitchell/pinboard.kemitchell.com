@@ -6,7 +6,7 @@
     "escape-html": "^1.0.3",
     "node-schedule": "^2.1.0",
     "pino": "^7.6.5",
-    "pino-http": "^6.0.0",
+    "pino-http": "^6.6.0",
     "run-parallel": "^1.2.0",
     "run-series": "^1.1.9",
     "simple-concat": "^1.0.1",
