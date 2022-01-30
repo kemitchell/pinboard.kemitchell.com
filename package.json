@@ -5,7 +5,7 @@
     "basic-auth": "^2.0.1",
     "escape-html": "^1.0.3",
     "node-schedule": "^2.1.0",
-    "pino": "^7.2.0",
+    "pino": "^7.6.5",
     "pino-http": "^6.0.0",
     "run-parallel": "^1.2.0",
     "run-series": "^1.1.9",
