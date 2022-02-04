@@ -83,6 +83,8 @@ const runParallel = require('run-parallel')
 
 const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com', 'nebula.app', 'wondrium.com']
 
+const russianRE = /[а-яА-Я]/
+
 const filters = {
   '/today': post => {
     const today = new Date().toISOString().split('T')[0]
@@ -92,6 +94,7 @@ const filters = {
     videoDomains.some(domain => post.href.includes(domain)) ||
     post.tags.includes('video')
   ),
+  '/russian': post => russianRE.test(post.description),
   '/shopping': post => post.tags.includes('shopping'),
   '/podcasts': post => (
     post.href.includes('podcast') ||
