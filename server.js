@@ -97,12 +97,20 @@ const filters = {
     post.href.includes('podcast') ||
     post.tags.includes('podcast')
   ),
-  '/wiki': post => post.href.includes('wikipedia.org'),
-  '/github': post => post.href.includes('github.com'),
-  '/twitter': post => post.href.includes('twitter.com'),
-  '/readontablet': post => post.tags.includes('readontablet'),
-  '/printme': post => post.tags.includes('printme'),
-  '/ken': post => post.href.includes('adamsdrafting.com')
+  '/wiki': inHREF('wikipedia.org'),
+  '/github': inHREF('github.com'),
+  '/twitter': inHREF('twitter.com'),
+  '/readontablet': hasTag('readontablet'),
+  '/printme': hasTag('printme'),
+  '/ken': inHREF('adamsdrafting.com')
+}
+
+function inHREF (substring) {
+  return post => post.href.includes(substring)
+}
+
+function hasTag (tag) {
+  return post => post.tags.includes(tag)
 }
 
 function get (request, response) {
