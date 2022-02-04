@@ -84,6 +84,10 @@ const runParallel = require('run-parallel')
 const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com', 'nebula.app', 'wondrium.com']
 
 const filters = {
+  '/today': post => {
+    const today = new Date().toISOString().split('T')[0]
+    return post.time.startsWith(today)
+  },
   '/videos': post => (
     videoDomains.some(domain => post.href.includes(domain)) ||
     post.tags.includes('video')
