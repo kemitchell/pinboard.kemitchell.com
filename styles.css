@@ -6,7 +6,6 @@ body {
   padding-bottom: 5rem;
 }
 
-header[role=banner],
 main[role=main],
 nav[role=navigation] {
   margin-left: auto;

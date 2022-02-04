@@ -166,9 +166,6 @@ function get (request, response) {
   </head>
   <body>
     <script src=/client.js></script>
-    <header role=banner>
-      <h1>${escapeHTML(TITLE)}</h1>
-    </header>
     <nav role=navigation>
       <a href=/>all</a>
       ${
