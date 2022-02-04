@@ -174,7 +174,7 @@ function get (request, response) {
       ${
         Object.keys(filters)
           .filter(path => allPosts.some(post => filters[path](post) && post.toread === 'yes'))
-          .map(path => `<a href="${path}">${path}</a>`)
+          .map(path => `<a href="${path}">${path.slice(1)}</a>`)
           .join(' ')
       }
     </nav>
