@@ -3,6 +3,7 @@
   "license": "Parity-6.0.0",
   "dependencies": {
     "basic-auth": "^2.0.1",
+    "busboy": "^1.4.0",
     "escape-html": "^1.0.3",
     "node-schedule": "^2.1.0",
     "pino": "^7.6.5",

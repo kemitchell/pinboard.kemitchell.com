@@ -184,6 +184,7 @@ function get (request, response) {
     </nav>
     <main role=main>
       <form method=post action=/refresh>
+        <input type=hidden name=location value="${escapeHTML(request.url)}">
         <button type=submit>Refresh</button>
       </form>
       <p>Total: ${count}, Showing: ${posts.length}</p>
@@ -205,6 +206,7 @@ function get (request, response) {
   }
 }
 
+const Busboy = require('busboy')
 const https = require('https')
 const querystring = require('querystring')
 const parseURL = require('url-parse')
@@ -217,11 +219,20 @@ function post (request, response) {
     return response.end()
   }
   if (request.url === '/refresh') {
-    return fetchPosts(() => {
-      response.statusCode = 303
-      response.setHeader('Location', request.headers.referer || '/')
-      response.end()
-    })
+    let location
+    return request.pipe(
+      Busboy({ headers: request.headers })
+        .on('field', (name, value) => {
+          if (name === 'location') location = value.trim()
+        })
+        .once('close', () => {
+          fetchPosts(() => {
+            response.statusCode = 303
+            response.setHeader('Location', location)
+            response.end()
+          })
+        })
+    )
   }
   const { url, action } = parseURL(request.url, true).query
   if (!url) {
