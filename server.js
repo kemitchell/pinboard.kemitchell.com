@@ -219,7 +219,7 @@ function post (request, response) {
   if (request.url === '/refresh') {
     return fetchPosts(() => {
       response.statusCode = 303
-      response.setHeader('Location', request.url)
+      response.setHeader('Location', request.headers.referer || '/')
       response.end()
     })
   }
