@@ -83,6 +83,8 @@ const runParallel = require('run-parallel')
 
 const videoDomains = ['youtube.com', 'youtu.be', 'vimeo.com', 'nebula.app', 'wondrium.com']
 
+const musicDomains = ['spotify.com']
+
 const russianRE = /[а-яА-Я]/
 
 const filters = {
@@ -93,6 +95,10 @@ const filters = {
   '/videos': post => (
     videoDomains.some(domain => post.href.includes(domain)) ||
     post.tags.includes('video')
+  ),
+  '/music': post => (
+    musicDomains.some(domain => post.href.includes(domain)) ||
+    post.tags.includes('music')
   ),
   '/russian': post => russianRE.test(post.description),
   '/shopping': post => post.tags.includes('shopping'),
