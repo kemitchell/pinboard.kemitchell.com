@@ -94,6 +94,7 @@ const filters = {
   },
   '/videos': post => (
     videoDomains.some(domain => post.href.includes(domain)) ||
+    post.description.includes('video:') ||
     post.tags.includes('video')
   ),
   '/music': post => (
