@@ -106,7 +106,10 @@ const filters = {
     post.href.includes('podcast') ||
     post.tags.includes('podcast')
   ),
-  '/siliconhills': inHREF('siliconhillslawyer.com'), 
+  '/siliconhills': inHREF('siliconhillslawyer.com'),
+  '/preston': inHREF('prestonbyrne.com'),
+  '/ipdraughts': inHREF('ipdraughts.wordpress.com'),
+  '/heather': inHREF('heathermeeker.com'),
   '/wiki': inHREF('wikipedia.org'),
   '/github': inHREF('github.com'),
   '/twitter': inHREF('twitter.com'),
