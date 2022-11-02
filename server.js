@@ -146,6 +146,9 @@ function get (request, response) {
     const unread = posts
       .filter(post => post.toread === 'yes')
       .sort((a, b) => a.time.localeCompare(b.time))
+    for (const post of posts) {
+      if (!post.description) post.description = ''
+    }
     let filtered = unread
     const filter = filters[request.url]
     if (filter) {
