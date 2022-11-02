@@ -109,6 +109,7 @@ const filters = {
   ),
   '/siliconhills': inHREF('siliconhillslawyer.com'),
   '/preston': inHREF('prestonbyrne.com'),
+  '/nimmer': inHREF('ipinfoblog.com'),
   '/ipdraughts': inHREF('ipdraughts.wordpress.com'),
   '/heather': inHREF('heathermeeker.com'),
   '/wiki': inHREF('wikipedia.org'),
