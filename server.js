@@ -51,6 +51,26 @@ if (!PASSWORD) {
   process.exit(1)
 }
 
+const cookie = require('cookie')
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN
+const COOKIE_NAME = 'token'
+
+function authenticate (request) {
+  const cookieHeader = request.headers.cookie
+  if (cookieHeader) {
+    const parsed = cookie.parse(cookieHeader)
+    const providedToken = parsed[COOKIE_NAME]
+    if (providedToken && providedToken === ACCESS_TOKEN) {
+      return true
+    }
+  }
+  const auth = basicAuth(request)
+  if (auth && auth.name === USERNAME && auth.pass === PASSWORD) {
+    return true
+  }
+  return false
+}
+
 const currentYear = new Date().getFullYear()
 const years = []
 for (let year = 2014; year <= currentYear; year++) {
@@ -130,8 +150,7 @@ function hasTag (tag) {
 
 function get (request, response) {
   const { limit = 100 } = parseURL(request.url, true).query
-  const auth = basicAuth(request)
-  if (!auth || auth.name !== USERNAME || auth.pass !== PASSWORD) {
+  if (!authenticate(request)) {
     response.statusCode = 401
     response.setHeader('WWW-Authenticate', 'Basic realm=todo')
     return response.end()
@@ -227,8 +246,7 @@ const querystring = require('querystring')
 const parseURL = require('url-parse')
 
 function post (request, response) {
-  const auth = basicAuth(request)
-  if (!auth || auth.name !== USERNAME || auth.pass !== PASSWORD) {
+  if (!authenticate(request)) {
     response.statusCode = 401
     response.setHeader('WWW-Authenticate', 'Basic realm=todo')
     return response.end()
