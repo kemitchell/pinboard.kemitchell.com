@@ -56,12 +56,14 @@ const ACCESS_TOKEN = process.env.ACCESS_TOKEN
 const COOKIE_NAME = 'token'
 
 function authenticate (request) {
-  const cookieHeader = request.headers.cookie
-  if (cookieHeader) {
-    const parsed = cookie.parse(cookieHeader)
-    const providedToken = parsed[COOKIE_NAME]
-    if (providedToken && providedToken === ACCESS_TOKEN) {
-      return true
+  if (ACCESS_TOKEN) {
+    const cookieHeader = request.headers.cookie
+    if (cookieHeader) {
+      const parsed = cookie.parse(cookieHeader)
+      const providedToken = parsed[COOKIE_NAME]
+      if (providedToken && providedToken === ACCESS_TOKEN) {
+        return true
+      }
     }
   }
   const auth = basicAuth(request)
@@ -154,6 +156,17 @@ function get (request, response) {
     response.statusCode = 401
     response.setHeader('WWW-Authenticate', 'Basic realm=todo')
     return response.end()
+  }
+  if (ACCESS_TOKEN) {
+    response.setHeader(
+      'Set-Cookie',
+      cookie.serialize(COOKIE_NAME, ACCESS_TOKEN, {
+        maxAge: 60 * 60 * 24 * 30,
+        httpOnly: true,
+        sameSite: 'Strict',
+        secure: process.env.NODE_ENV === 'production'
+      })
+    )
   }
   fs.readFile(POSTS_FILE, (error, json) => {
     if (error) return internalError(error)
