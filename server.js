@@ -254,7 +254,7 @@ function get (request, response) {
   }
 }
 
-const Busboy = require('busboy')
+const busboy = require('busboy')
 const https = require('https')
 const querystring = require('querystring')
 const parseURL = require('url-parse')
@@ -268,7 +268,7 @@ function post (request, response) {
   if (request.url === '/refresh') {
     let location
     return request.pipe(
-      Busboy({ headers: request.headers })
+      busboy({ headers: request.headers })
         .on('field', (name, value) => {
           if (name === 'location') location = value.trim()
         })
