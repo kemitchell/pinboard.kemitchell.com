@@ -137,6 +137,7 @@ const filters = {
   '/wiki': inHREF('wikipedia.org'),
   '/github': inHREF('github.com'),
   '/twitter': inHREF('twitter.com'),
+  '/reddit': inHREF('reddit.com'),
   '/readontablet': hasTag('readontablet'),
   '/printme': hasTag('printme'),
   '/ken': inHREF('adamsdrafting.com')
