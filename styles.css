@@ -55,3 +55,11 @@ a[href]:hover {
 .delete {
   float: right;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000;
+    color: white;
+  }
+  a[href] { color: lightblue; }
+}
