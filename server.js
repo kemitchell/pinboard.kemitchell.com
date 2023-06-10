@@ -155,7 +155,7 @@ function get (request, response) {
   const { limit = 100 } = parseURL(request.url, true).query
   if (!authenticate(request)) {
     response.statusCode = 401
-    response.setHeader('WWW-Authenticate', 'Basic realm=todo')
+    response.setHeader('WWW-Authenticate', 'Basic realm=reverse')
     return response.end()
   }
   if (ACCESS_TOKEN) {
@@ -262,7 +262,7 @@ const parseURL = require('url-parse')
 function post (request, response) {
   if (!authenticate(request)) {
     response.statusCode = 401
-    response.setHeader('WWW-Authenticate', 'Basic realm=todo')
+    response.setHeader('WWW-Authenticate', 'Basic realm=reverse')
     return response.end()
   }
   if (request.url === '/refresh') {
