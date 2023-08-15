@@ -430,8 +430,8 @@ server.listen(process.env.PORT || 8080, function () {
 
 const { pipeline } = require('stream')
 const schedule = require('node-schedule')
-const EVERY_TEN_MINUTES = '*/10 * * * *'
-schedule.scheduleJob(EVERY_TEN_MINUTES, fetchPosts)
+const EVERY_HOUR = '0 * * * *'
+schedule.scheduleJob(EVERY_HOUR, fetchPosts)
 
 function fetchPosts (callback) {
   runParallel({
