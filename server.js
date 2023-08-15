@@ -502,7 +502,10 @@ function fetchPosts (callback) {
       done => fs.writeFile(UPDATED_FILE, api, done)
     ], error => {
       if (error) return log.error(error)
-      if (callback) callback()
+      if (callback) {
+        if (typeof callback === 'function') callback()
+        else log.info('callback not function', { callback })
+      }
     })
   })
 }
