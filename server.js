@@ -141,8 +141,8 @@ const filters = {
   '/readontablet': hasTag('readontablet'),
   '/printme': hasTag('printme'),
   '/shortened': post => (
-    post.href.includes('ow.ly') ||
-    post.href.includes('t.co')
+    post.href.includes('//ow.ly/') ||
+    post.href.includes('//t.co/')
   ),
   '/ken': inHREF('adamsdrafting.com')
 }
