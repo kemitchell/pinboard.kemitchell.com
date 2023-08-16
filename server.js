@@ -504,7 +504,7 @@ function fetchPosts (callback) {
       if (error) return log.error(error)
       if (callback) {
         if (typeof callback === 'function') callback()
-        else log.info('callback not function', { callback })
+        else log.info('callback not function', { typeof: typeof callback })
       }
     })
   })
